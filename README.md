@@ -4,8 +4,16 @@ Jenkins LTS image with Docker installed to run Docker container using Jenkins.
 
 Image pulled from [DockerHub](https://hub.docker.com/repository/docker/umids/ids-jenkins)
 
+* Run on localhost:8080
+
 ```bash
-docker run -d --name ids-jenkins -v /var/run/docker.sock:/var/run/docker.sock:ro -v /data/jenkins/jenkins_home/:/var/jenkins_home -o 8080:8080 umids/ids-jenkins
+docker run -d --rm --name ids-jenkins -p 8080:8080 -v /var/run/docker.sock:/var/run/docker.sock:ro -v /data/jenkins/jenkins_home/:/var/jenkins_home umids/ids-jenkins
+```
+
+* Deploy publicly using [jwilder/nginx-proxy](https://github.com/jwilder/nginx-proxy)
+
+```bash
+docker run -d --rm --name ids-jenkins -v /var/run/docker.sock:/var/run/docker.sock:ro -v /data/jenkins/jenkins_home/:/var/jenkins_home -e VIRTUAL_HOST=jenkins.MY_IP_ADDRESS.nip.io -e LETSENCRYPT_HOST=jenkins.MY_IP_ADDRESS.nip.io -e VIRTUAL_PORT=8080 umids/ids-jenkins
 ```
 
 ## Build
