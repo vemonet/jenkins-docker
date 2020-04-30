@@ -2,24 +2,24 @@ Jenkins LTS image with Docker installed to run Docker container using Jenkins.
 
 ## Run
 
-Image pulled from [DockerHub](https://hub.docker.com/repository/docker/umids/ids-jenkins)
+Image pulled from [DockerHub](https://hub.docker.com/repository/docker/umids/jenkins-docker)
 
 * Run on localhost:8080
 
 ```bash
-docker run -d --rm --name ids-jenkins -p 8080:8080 -v /var/run/docker.sock:/var/run/docker.sock:ro -v /data/jenkins/jenkins_home/:/var/jenkins_home umids/ids-jenkins
+docker run -d --rm --name ids-jenkins -p 8080:8080 -v /var/run/docker.sock:/var/run/docker.sock:ro -v /data/jenkins/jenkins_home/:/var/jenkins_home umids/jenkins-docker
 ```
 
 * Deploy publicly using [jwilder/nginx-proxy](https://github.com/jwilder/nginx-proxy)
 
 ```bash
-docker run -d --rm --name ids-jenkins -v /var/run/docker.sock:/var/run/docker.sock:ro -v /data/jenkins/jenkins_home/:/var/jenkins_home -e VIRTUAL_HOST=jenkins.MY_IP_ADDRESS.nip.io -e LETSENCRYPT_HOST=jenkins.MY_IP_ADDRESS.nip.io -e VIRTUAL_PORT=8080 umids/ids-jenkins
+docker run -d --rm --name ids-jenkins -v /var/run/docker.sock:/var/run/docker.sock:ro -v /data/jenkins/jenkins_home/:/var/jenkins_home -e VIRTUAL_HOST=jenkins.MY_IP_ADDRESS.nip.io -e LETSENCRYPT_HOST=jenkins.MY_IP_ADDRESS.nip.io -e VIRTUAL_PORT=8080 umids/jenkins-docker
 ```
 
 ## Build
 
 ```bash
-docker build -t umids/ids-jenkins .
+docker build -t umids/jenkins-docker .
 ```
 
 ## Details
@@ -42,6 +42,6 @@ Create new Jenkins pipeline from Jenkinsfile on GitHub:
 * Go inside the Jenkins container and **login** to be able to `docker push`:
 
   * ```bash
-    docker exec -i -t jenkins bash
+    docker exec -i -t ids-jenkins bash
     docker login
     ```
