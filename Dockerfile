@@ -13,3 +13,6 @@ RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - \
 
 RUN apt-get update -qq
 RUN apt-get install -qqy docker-ce docker-ce-cli containerd.io
+
+RUN curl -L --fail https://github.com/docker/compose/releases/download/1.25.5/run.sh -o /usr/local/bin/docker-compose
+RUN chmod +x /usr/local/bin/docker-compose
