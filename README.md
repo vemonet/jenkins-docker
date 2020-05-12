@@ -16,6 +16,21 @@ docker run -d --rm --name ids-jenkins -p 8080:8080 -v /var/run/docker.sock:/var/
 docker run -d --rm --name ids-jenkins -v /var/run/docker.sock:/var/run/docker.sock:ro -v /data/jenkins/jenkins_home/:/var/jenkins_home -e VIRTUAL_HOST=jenkins.MY_IP_ADDRESS.nip.io -e LETSENCRYPT_HOST=jenkins.MY_IP_ADDRESS.nip.io -e VIRTUAL_PORT=8080 umids/jenkins-docker
 ```
 
+* Share SSH keys (to clone private git repo using SSH)
+
+```bash
+docker run -d --rm --name ids-jenkins -v /data/.ssh:/root/.ssh -v /var/run/docker.sock:/var/run/docker.sock:ro -v /data/jenkins/jenkins_home/:/var/jenkins_home -e VIRTUAL_HOST=jenkins.MY_IP_ADDRESS.nip.io -e LETSENCRYPT_HOST=jenkins.MY_IP_ADDRESS.nip.io -e VIRTUAL_PORT=8080 umids/jenkins-docker
+```
+
+> The .ssh folder needs to be owned by the `root` user and in `/data`.
+>
+> Use the SSH config file from this repository:
+>
+> ```bash
+> mkdir -p /data/.ssh
+> cp ssh_config /data/.ssh/config
+> ```
+
 ## Build
 
 ```bash
@@ -45,3 +60,12 @@ Create new Jenkins pipeline from Jenkinsfile on GitHub:
     docker exec -i -t ids-jenkins bash
     docker login
     ```
+
+* To enable Git clone from SSH, add the following to `/root/.ssh/config`
+
+```bash
+Host github.com
+ Hostname ssh.github.com
+ Port 443
+```
+
